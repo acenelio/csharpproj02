@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using curso.dominio;
 
@@ -18,15 +17,15 @@ namespace curso {
             Console.Write("Digite uma opção: ");
         }
 
-        public static void mostrarArtistas(List<Artista> artistas) {
+        public static void mostrarArtistas() {
             Console.WriteLine("LISTAGEM DE ARTISTAS:");
-            for (int i = 0; i < artistas.Count; i++) {
-                Console.WriteLine(artistas[i]);
+            for (int i = 0; i < Program.artistas.Count; i++) {
+                Console.WriteLine(Program.artistas[i]);
             }
             Console.WriteLine();
         }
 
-        public static Artista lerArtista() {
+        public static void cadastrarArtista() {
             Console.WriteLine("Digite os dados do artista: ");
             Console.Write("Código: ");
             int codigo = int.Parse(Console.ReadLine());
@@ -34,10 +33,12 @@ namespace curso {
             string nome = Console.ReadLine();
             Console.Write("Valor do cachê: ");
             double cache = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
-            return new Artista(codigo, nome, cache);
+            Artista A = new Artista(codigo, nome, cache);
+            Program.artistas.Add(A);
+            Program.artistas.Sort();
         }
 
-        public static Filme lerFilme(List<Artista> artistas) {
+        public static void cadastrarFilme() {
             Console.WriteLine("Digite os dados do filme: ");
             Console.Write("Código: ");
             int codigo = int.Parse(Console.ReadLine());
@@ -52,26 +53,26 @@ namespace curso {
                 Console.WriteLine("Digite os dados da " + i + "ª participação:");
                 Console.Write("Artista (código): ");
                 int codArtista = int.Parse(Console.ReadLine());
-                int pos = artistas.FindIndex(x => x.codigo == codArtista);
+                int pos = Program.artistas.FindIndex(x => x.codigo == codArtista);
                 if (pos == -1) {
                     throw new ModelException("Código de artista não encontrado: " + codArtista);
                 }
                 Console.Write("Desconto: ");
                 double desconto = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
-                Participacao part = new Participacao(desconto, artistas[pos], F);
+                Participacao part = new Participacao(desconto, Program.artistas[pos], F);
                 F.participacoes.Add(part);
             }
-            return F;
+            Program.filmes.Add(F);
         }
 
-        public static void mostrarFilme(List<Filme> filmes) {
+        public static void mostrarFilme() {
             Console.Write("Digite o código do filme: ");
             int codFilme = int.Parse(Console.ReadLine());
-            int pos = filmes.FindIndex(x => x.codigo == codFilme);
+            int pos = Program.filmes.FindIndex(x => x.codigo == codFilme);
             if (pos == -1) {
                 throw new ModelException("Código de filme não encontrado: " + codFilme);
             }
-            Console.WriteLine(filmes[pos]);
+            Console.WriteLine(Program.filmes[pos]);
             Console.WriteLine();
         }
     }

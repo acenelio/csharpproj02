@@ -4,10 +4,11 @@ using curso.dominio;
 
 namespace curso {
     class Program {
-        static void Main(string[] args) {
 
-            List<Artista> artistas = new List<Artista>();
-            List<Filme> filmes = new List<Filme>();
+        public static List<Artista> artistas = new List<Artista>();
+        public static List<Filme> filmes = new List<Filme>();
+
+        static void Main(string[] args) {
 
             int opcao = 0;
 
@@ -30,13 +31,11 @@ namespace curso {
                 Console.WriteLine();
 
                 if (opcao == 1) {
-                    Tela.mostrarArtistas(artistas);
+                    Tela.mostrarArtistas();
                 }
                 else if (opcao == 2) {
                     try {
-                        Artista A = Tela.lerArtista();
-                        artistas.Add(A);
-                        artistas.Sort();
+                        Tela.cadastrarArtista();
                     }
                     catch (Exception e) {
                         Console.WriteLine("Erro inesperado: " + e.Message);
@@ -44,8 +43,7 @@ namespace curso {
                 }
                 else if (opcao == 3) {
                     try {
-                        Filme F = Tela.lerFilme(artistas);
-                        filmes.Add(F);
+                        Tela.cadastrarFilme();
                     }
                     catch (ModelException e) {
                         Console.WriteLine("Erro de negócio: " + e.Message);
@@ -56,7 +54,7 @@ namespace curso {
                 }
                 else if (opcao == 4) {
                     try {
-                        Tela.mostrarFilme(filmes);
+                        Tela.mostrarFilme();
                     }
                     catch (ModelException e) {
                         Console.WriteLine("Erro de negócio: " + e.Message);
